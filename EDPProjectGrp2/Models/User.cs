@@ -12,12 +12,12 @@ namespace EDPProjectGrp2.Models
         public string MembershipStatus { get; set; } = string.Empty;
         [Required]
         public string MobileNumber { get; set; } = string.Empty;
-        [Required]
+        [Required, EmailAddress, MaxLength(50)]
         public string Email { get; set; } = string.Empty;
-        [Required]
+        [Required, MinLength(8)]
         public string Password { get; set; } = string.Empty;
         public string? ProfilePhotoFile { get; set; }
-        [Required, MaxLength(50)]
+        [Required, MinLength(1), MaxLength(50)]
         public string FirstName { get; set; } = string.Empty;
         [MaxLength(50)]
         public string LastName { get; set; } = string.Empty;
