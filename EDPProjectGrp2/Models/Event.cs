@@ -51,6 +51,6 @@ namespace EDPProjectGrp2.Models
         public bool EventSale { get; set; } = false;
 
         [Required]
-        public bool EventStatus { get; set; } = false;
+        public bool EventStatus { get; set; } = true;
     }
 }
