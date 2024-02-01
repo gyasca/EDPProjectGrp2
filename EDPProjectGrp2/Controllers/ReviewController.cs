@@ -55,6 +55,8 @@ namespace EDPProjectGrp2.Controllers
 
             review.Name = updatedReview.Name;
             review.Comment = updatedReview.Comment;
+            review.Subject = updatedReview.Subject;
+            review.Rating = updatedReview.Rating;
 
             _context.SaveChanges();
 

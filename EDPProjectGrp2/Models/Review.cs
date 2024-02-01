@@ -11,6 +11,10 @@ namespace EDPProjectGrp2.Models
         [StringLength(50, ErrorMessage = "User name must be less than 50 characters.")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please enter a subject.")]
+        [StringLength(50, ErrorMessage = "Subject must be less than 50 characters")]
+        public string Subject { get; set; }
+
         [Required(ErrorMessage = "Please enter a comment.")]
         [StringLength(1000, ErrorMessage = "Comment must be less than 1000 characters.")]
         public string Comment { get; set; }
