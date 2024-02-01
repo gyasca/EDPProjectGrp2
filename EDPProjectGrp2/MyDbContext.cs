@@ -21,5 +21,7 @@ namespace LearningAPI
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
     }
 }
