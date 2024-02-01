@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Org.BouncyCastle.Asn1.Ocsp;
 using Microsoft.AspNetCore.Authorization;
 
 namespace EDPProjectGrp2.Controllers
@@ -54,7 +53,7 @@ namespace EDPProjectGrp2.Controllers
 
             // Check email (Gives error: Capturing variable 'user' that hasn't been captured blah blah)
             var foundUser = _context.Users.Where(
-            x => x.Email == user.Email).FirstOrDefault();
+            x => x.Email == myUser.Email).FirstOrDefault();
             if (foundUser != null)
             {
                 string message = "Email already exists.";
@@ -144,7 +143,8 @@ namespace EDPProjectGrp2.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.FirstName),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.RoleName)
                 }),
                 Expires = DateTime.UtcNow.AddDays(tokenExpiresDays),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -246,7 +246,15 @@ namespace EDPProjectGrp2.Controllers
             userToUpdate.TwoFactorAuthStatus = user.TwoFactorAuthStatus;
             userToUpdate.VerificationStatus = user.VerificationStatus;
             userToUpdate.DateOfBirth = user.DateOfBirth;
-            
+
+            // Check if the password is being updated
+            if (!string.IsNullOrEmpty(user.Password))
+            {
+                // Hash the updated password
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                userToUpdate.Password = passwordHash;
+            }
+
             _context.SaveChanges();
             return Ok(userToUpdate);
         }

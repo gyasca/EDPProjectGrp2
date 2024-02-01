@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EDPProjectGrp2.Models
 {
@@ -35,7 +36,12 @@ namespace EDPProjectGrp2.Models
         public bool TwoFactorAuthStatus { get; set; } = false;
         [Required]
         public bool VerificationStatus { get; set; } = false;
-        [Column(TypeName = "datetime")]
+
+		// Navigation property to represent the one-to-many relationship
+		[JsonIgnore]
+		public List<ForumPost>? ForumPosts { get; set; }
+
+		[Column(TypeName = "datetime")]
         public DateTime CreatedAt { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime UpdatedAt { get; set; }
