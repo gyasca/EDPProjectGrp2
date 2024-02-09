@@ -11,7 +11,7 @@ namespace EDPProjectGrp2.Models
 		[ForeignKey("User")]
 		public int UserId { get; set; }
 
-		public User User { get; set; }
+		public User? User { get; set; }
 
 		[Required, MaxLength(255)]
 		public string PostTopic { get; set; } = string.Empty;

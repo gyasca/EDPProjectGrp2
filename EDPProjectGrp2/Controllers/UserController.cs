@@ -222,36 +222,65 @@ namespace EDPProjectGrp2.Controllers
 
         // Update User by ID
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, User user)
+        public IActionResult UpdateUser(int id, EditRequest request)
         {
             var userToUpdate = _context.Users.Find(id);
             if (userToUpdate == null)
             {
                 return NotFound();
             }
+            //var originalPassword = userToUpdate.Password;
             userToUpdate.UpdatedAt = DateTime.Now;
-            userToUpdate.RoleName = user.RoleName;
-            userToUpdate.MembershipStatus = user.MembershipStatus;
-            userToUpdate.MobileNumber = user.MobileNumber;
-            userToUpdate.Email = user.Email.Trim();
-            userToUpdate.Password = user.Password.Trim();
-            userToUpdate.ProfilePhotoFile = user.ProfilePhotoFile;
-            userToUpdate.FirstName = user.FirstName.Trim();
-            userToUpdate.LastName = user.LastName.Trim();
-            userToUpdate.Gender = user.Gender;
-            userToUpdate.OccupationType = user.OccupationType;
-            userToUpdate.Address = user.Address.Trim();
-            userToUpdate.PostalCode = user.PostalCode.Trim();
-            userToUpdate.NewsletterSubscriptionStatus = user.NewsletterSubscriptionStatus;
-            userToUpdate.TwoFactorAuthStatus = user.TwoFactorAuthStatus;
-            userToUpdate.VerificationStatus = user.VerificationStatus;
-            userToUpdate.DateOfBirth = user.DateOfBirth;
+            userToUpdate.RoleName = request.RoleName;
+            userToUpdate.MembershipStatus = request.MembershipStatus;
+            userToUpdate.MobileNumber = request.MobileNumber;
+            userToUpdate.Email = request.Email.Trim();
+            //userToUpdate.Password = user.Password.Trim();
+            userToUpdate.ProfilePhotoFile = request.ProfilePhotoFile;
+            userToUpdate.FirstName = request.FirstName.Trim();
+            userToUpdate.LastName = request.LastName.Trim();
+            userToUpdate.Gender = request.Gender;
+            userToUpdate.OccupationType = request.OccupationType;
+            userToUpdate.Address = request.Address.Trim();
+            userToUpdate.PostalCode = request.PostalCode.Trim();
+            userToUpdate.NewsletterSubscriptionStatus = request.NewsletterSubscriptionStatus;
+            userToUpdate.TwoFactorAuthStatus = request.TwoFactorAuthStatus;
+            userToUpdate.VerificationStatus = request.VerificationStatus;
+            userToUpdate.DateOfBirth = request.DateOfBirth;
 
             // Check if the password is being updated
-            if (!string.IsNullOrEmpty(user.Password))
+            //if (!string.IsNullOrEmpty(user.Password))
+            //{
+            //    // Hash the updated password
+            //    string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+            //    userToUpdate.Password = passwordHash;
+            //}
+            //else {
+            //    // if password not being updated, set value to original value
+            //    userToUpdate.Password = originalPassword;
+            //}
+
+
+            _context.SaveChanges();
+            return Ok(userToUpdate);
+        }
+
+        // Update User by ID
+        [HttpPut("password/{id}")]
+        public IActionResult UpdateUserPassword(int id, PasswordRequest request)
+        {
+            var userToUpdate = _context.Users.Find(id);
+            if (userToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            userToUpdate.Password = request.Password.Trim();
+            // Check if the password is being updated
+            if (!string.IsNullOrEmpty(request.Password))
             {
                 // Hash the updated password
-                string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 userToUpdate.Password = passwordHash;
             }
 
