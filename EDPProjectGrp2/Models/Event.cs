@@ -32,13 +32,13 @@ namespace EDPProjectGrp2.Models
 
         [Required]
         [Range(0, 999)]
-        public int EventPrice { get; set; } = 0;
+        public decimal EventPrice { get; set; } = 0;
 
         [Range(0, 999)]
-        public int EventUplayMemberPrice { get; set; } = 0;
+        public decimal EventUplayMemberPrice { get; set; } = 0;
 
         [Range(0, 999)]
-        public int EventNtucClubPrice { get; set; } = 0; 
+        public decimal EventNtucClubPrice { get; set; } = 0; 
 
         [Required]
         public DateTime EventDate { get; set; } = DateTime.MinValue;

@@ -3,6 +3,7 @@ using System;
 using LearningAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EDPProjectGrp2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240208114324_Order_OrderLog_OrderItemAdeed")]
+    partial class Order_OrderLog_OrderItemAdeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,16 +78,16 @@ namespace EDPProjectGrp2.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<decimal>("EventNtucClubPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("EventNtucClubPrice")
+                        .HasColumnType("int");
 
                     b.Property<string>("EventPicture")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<decimal>("EventPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("EventPrice")
+                        .HasColumnType("int");
 
                     b.Property<bool>("EventSale")
                         .HasColumnType("tinyint(1)");
@@ -95,8 +98,8 @@ namespace EDPProjectGrp2.Migrations
                     b.Property<int>("EventTicketStock")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("EventUplayMemberPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("EventUplayMemberPrice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -109,8 +112,8 @@ namespace EDPProjectGrp2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<decimal>("GstAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("GstAmount")
+                        .HasColumnType("int");
 
                     b.Property<int>("NoOfItems")
                         .HasColumnType("int");
@@ -128,11 +131,11 @@ namespace EDPProjectGrp2.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<decimal>("SubTotalAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("SubTotalAmount")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("TotalAmount")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -150,11 +153,11 @@ namespace EDPProjectGrp2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Discounted")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Discounted")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("DiscountedTotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("DiscountedTotalPrice")
+                        .HasColumnType("int");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -165,8 +168,8 @@ namespace EDPProjectGrp2.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -327,7 +330,7 @@ namespace EDPProjectGrp2.Migrations
                         .IsRequired();
 
                     b.HasOne("EDPProjectGrp2.Models.Order", "Order")
-                        .WithMany("OrderItems")
+                        .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -354,11 +357,6 @@ namespace EDPProjectGrp2.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EDPProjectGrp2.Models.Order", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

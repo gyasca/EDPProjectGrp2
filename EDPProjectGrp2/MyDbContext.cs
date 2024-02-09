@@ -21,5 +21,10 @@ namespace LearningAPI
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<OrderLog> OrderLogs { get; set; } 
+        public DbSet<Order> Orders { get; set; } 
+        public DbSet<OrderItem> OrderItems { get; set; }
+
     }
 }
