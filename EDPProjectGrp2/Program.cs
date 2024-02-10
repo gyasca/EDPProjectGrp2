@@ -3,26 +3,26 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<MyDbContext>();
+builder.Services.AddSignalR();
 
 // Add CORS policy
-var allowedOrigins = builder.Configuration.GetSection(
-"AllowedOrigins").Get<string[]>();
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-    policy =>
+    options.AddDefaultPolicy(policy =>
     {
         policy.WithOrigins(allowedOrigins)
-    .AllowAnyMethod()
-    .AllowAnyHeader();
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials(); // Allow credentials for SignalR
     });
 });
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -70,21 +70,26 @@ builder.Services
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Middleware order
+app.UseHttpsRedirection();
+
+app.UseRouting(); // Place UseRouting before other middleware that depends on routing
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseEndpoints(routes =>
+{
+    routes.MapHub<ChatHub>("/chat");
+    routes.MapControllers();
+});
 
 app.Run();
