@@ -49,8 +49,35 @@ namespace EDPProjectGrp2.Controllers
 			return Ok(PostToUpload);
 		}
 
+        [HttpPut("edit/{id}"), Authorize]
+        public IActionResult UpdateForumPost(int id, ForumPost forumPost)
+        {
+            var PostToEdit = _context.ForumPost.Find(id);
+            if (PostToEdit == null)
+            {
+                return NotFound();
+            }
+            int userId = GetUserId();
+            if (PostToEdit.UserId != userId)
+            {
+                return Forbid();
+            }
 
-		[HttpGet]
+            var now = DateTime.Now;
+
+            PostToEdit.UserId = userId;
+			PostToEdit.PostTopic = forumPost.PostTopic.Trim();
+			PostToEdit.Title = forumPost.Title.Trim();
+			PostToEdit.Content = forumPost.Content.Trim();
+			PostToEdit.Votes = forumPost.Votes;
+			PostToEdit.DateEdited = now;
+
+            _context.SaveChanges();
+            return Ok(PostToEdit);
+        }
+
+
+        [HttpGet]
 		public IActionResult GetAllPosts(string? search)
 		{
 			IQueryable<ForumPost> result = _context.ForumPost.Include(t => t.User);

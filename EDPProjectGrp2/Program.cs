@@ -80,6 +80,8 @@ app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseStaticFiles();
+
 app.UseAuthentication();
 
 app.UseAuthorization();

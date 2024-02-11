@@ -66,36 +66,6 @@ namespace EDPProjectGrp2.Controllers
             return Ok(myUser);
         }
 
-        //// Register user
-        //[HttpPost("registerfrompractical4")]
-        //public IActionResult Register(RegisterRequest request)
-        //{
-        //    // Create user object
-        //    var now = DateTime.Now;
-        //    string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        //    var user = new User()
-        //    {
-        //        FirstName = request.FirstName,
-        //        Email = request.Email,
-        //        Password = passwordHash,
-        //        CreatedAt = now,
-        //        UpdatedAt = now
-        //    };
-
-        //    // Check email
-        //    var foundUser = _context.Users.Where(
-        //    x => x.Email == request.Email).FirstOrDefault();
-        //    if (foundUser != null)
-        //    {
-        //        string message = "Email already exists.";
-        //        return BadRequest(new { message });
-        //    }
-
-        //    // Add user
-        //    _context.Users.Add(user);
-        //    _context.SaveChanges();
-        //    return Ok();
-        //}
 
         // Login to user account
         [HttpPost("login")]
@@ -200,17 +170,20 @@ namespace EDPProjectGrp2.Controllers
             var id = Convert.ToInt32(User.Claims.Where(
             c => c.Type == ClaimTypes.NameIdentifier)
             .Select(c => c.Value).SingleOrDefault());
-            var name = User.Claims.Where(c => c.Type == ClaimTypes.Name)
+            var firstName = User.Claims.Where(c => c.Type == ClaimTypes.Name)
             .Select(c => c.Value).SingleOrDefault();
             var email = User.Claims.Where(c => c.Type == ClaimTypes.Email)
             .Select(c => c.Value).SingleOrDefault();
-            if (id != 0 && name != null && email != null)
+            var roleName = User.Claims.Where(c => c.Type == ClaimTypes.Role)
+            .Select(c => c.Value).SingleOrDefault();
+            if (id != 0 && firstName != null && email != null && roleName != null)
             {
                 var user = new
                 {
                     id,
                     email,
-                    name
+                    firstName,
+                    roleName,
                 };
                 return Ok(new { user });
             }
@@ -247,18 +220,6 @@ namespace EDPProjectGrp2.Controllers
             userToUpdate.TwoFactorAuthStatus = request.TwoFactorAuthStatus;
             userToUpdate.VerificationStatus = request.VerificationStatus;
             userToUpdate.DateOfBirth = request.DateOfBirth;
-
-            // Check if the password is being updated
-            //if (!string.IsNullOrEmpty(user.Password))
-            //{
-            //    // Hash the updated password
-            //    string passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
-            //    userToUpdate.Password = passwordHash;
-            //}
-            //else {
-            //    // if password not being updated, set value to original value
-            //    userToUpdate.Password = originalPassword;
-            //}
 
 
             _context.SaveChanges();
