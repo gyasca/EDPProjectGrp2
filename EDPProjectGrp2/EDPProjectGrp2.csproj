@@ -23,4 +23,30 @@
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\static\css\main.f855e6bc.css" />
+    <Content Remove="wwwroot\static\css\main.f855e6bc.css.map" />
+    <Content Remove="wwwroot\static\js\787.8435546a.chunk.js" />
+    <Content Remove="wwwroot\static\js\787.8435546a.chunk.js.map" />
+    <Content Remove="wwwroot\static\js\main.07ce61b4.js" />
+    <Content Remove="wwwroot\static\js\main.07ce61b4.js.LICENSE.txt" />
+    <Content Remove="wwwroot\static\js\main.07ce61b4.js.map" />
+    <Content Remove="wwwroot\static\media\logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\static\css\main.f855e6bc.css" />
+    <None Include="wwwroot\static\css\main.f855e6bc.css.map" />
+    <None Include="wwwroot\static\js\787.8435546a.chunk.js" />
+    <None Include="wwwroot\static\js\787.8435546a.chunk.js.map" />
+    <None Include="wwwroot\static\js\main.07ce61b4.js" />
+    <None Include="wwwroot\static\js\main.07ce61b4.js.LICENSE.txt" />
+    <None Include="wwwroot\static\js\main.07ce61b4.js.map" />
+    <None Include="wwwroot\static\media\logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg" />
+  </ItemGroup>
 </Project>

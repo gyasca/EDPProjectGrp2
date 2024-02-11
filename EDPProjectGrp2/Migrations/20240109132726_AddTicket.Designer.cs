@@ -3,6 +3,7 @@ using System;
 using LearningAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,112 +11,69 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EDPProjectGrp2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240109132726_AddTicket")]
+    partial class AddTicket
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("EDPProjectGrp2.Models.Event", b =>
+            modelBuilder.Entity("EDPProjectGrp2.Models.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("EventCategory")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime>("EventDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("EventDescription")
+                    b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<int>("EventDuration")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<string>("EventLocation")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int>("EventNtucClubPrice")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EventPicture")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<int>("EventPrice")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("EventSale")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("EventStatus")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("EventTicketStock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EventUplayMemberPrice")
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events");
+                    b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("EDPProjectGrp2.Models.ForumPost", b =>
+            modelBuilder.Entity("EDPProjectGrp2.Models.Ticket", b =>
                 {
-                    b.Property<int>("PostId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Content")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("DateEdited")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("PostTopic")
+                    b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Subject")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.Property<int>("Votes")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ForumPost");
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("EDPProjectGrp2.Models.User", b =>
@@ -198,22 +156,6 @@ namespace EDPProjectGrp2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EDPProjectGrp2.Models.ForumPost", b =>
-                {
-                    b.HasOne("EDPProjectGrp2.Models.User", "User")
-                        .WithMany("ForumPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EDPProjectGrp2.Models.User", b =>
-                {
-                    b.Navigation("ForumPosts");
                 });
 #pragma warning restore 612, 618
         }
