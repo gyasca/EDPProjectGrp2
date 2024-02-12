@@ -163,6 +163,20 @@ namespace EDPProjectGrp2.Controllers
             return Ok(userToFind);
         }
 
+        // Get User by Email
+        [HttpGet("email/{email}")]
+        public IActionResult GetByEmail(string email)
+        {
+            User? userToFind = _context.Users.FirstOrDefault(u => u.Email == email);
+
+            if (userToFind == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(userToFind);
+        }
+
         // Authorization/authentication (From Practical 5 page 4, week 6)
         [HttpGet("auth"), Authorize]
         public IActionResult Auth()
