@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EDPProjectGrp2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240208114324_Order_OrderLog_OrderItemAdeed")]
-    partial class Order_OrderLog_OrderItemAdeed
+    [Migration("20240212122814_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,16 +78,16 @@ namespace EDPProjectGrp2.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("EventNtucClubPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("EventNtucClubPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("EventPicture")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int>("EventPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("EventPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("EventSale")
                         .HasColumnType("tinyint(1)");
@@ -98,12 +98,51 @@ namespace EDPProjectGrp2.Migrations
                     b.Property<int>("EventTicketStock")
                         .HasColumnType("int");
 
-                    b.Property<int>("EventUplayMemberPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("EventUplayMemberPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EDPProjectGrp2.Models.ForumPost", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("DateEdited")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("PostTopic")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Votes")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ForumPost");
                 });
 
             modelBuilder.Entity("EDPProjectGrp2.Models.Order", b =>
@@ -112,8 +151,8 @@ namespace EDPProjectGrp2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("GstAmount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("GstAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("NoOfItems")
                         .HasColumnType("int");
@@ -131,11 +170,11 @@ namespace EDPProjectGrp2.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("SubTotalAmount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("SubTotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("TotalAmount")
-                        .HasColumnType("int");
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -153,11 +192,11 @@ namespace EDPProjectGrp2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("Discounted")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Discounted")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("DiscountedTotalPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("DiscountedTotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -168,8 +207,8 @@ namespace EDPProjectGrp2.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -177,36 +216,66 @@ namespace EDPProjectGrp2.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItem");
                 });
 
-            modelBuilder.Entity("EDPProjectGrp2.Models.OrderLog", b =>
+            modelBuilder.Entity("EDPProjectGrp2.Models.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ChangedStatus")
+                    b.Property<string>("Comment")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Timestamp")
+                    b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.ToTable("Reviews");
+                });
 
-                    b.HasIndex("UserId");
+            modelBuilder.Entity("EDPProjectGrp2.Models.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.ToTable("OrderLogs");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tickets");
                 });
 
             modelBuilder.Entity("EDPProjectGrp2.Models.User", b =>
@@ -310,6 +379,17 @@ namespace EDPProjectGrp2.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EDPProjectGrp2.Models.ForumPost", b =>
+                {
+                    b.HasOne("EDPProjectGrp2.Models.User", "User")
+                        .WithMany("ForumPosts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EDPProjectGrp2.Models.Order", b =>
                 {
                     b.HasOne("EDPProjectGrp2.Models.User", "User")
@@ -330,7 +410,7 @@ namespace EDPProjectGrp2.Migrations
                         .IsRequired();
 
                     b.HasOne("EDPProjectGrp2.Models.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -340,23 +420,14 @@ namespace EDPProjectGrp2.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("EDPProjectGrp2.Models.OrderLog", b =>
+            modelBuilder.Entity("EDPProjectGrp2.Models.Order", b =>
                 {
-                    b.HasOne("EDPProjectGrp2.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("OrderItems");
+                });
 
-                    b.HasOne("EDPProjectGrp2.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("User");
+            modelBuilder.Entity("EDPProjectGrp2.Models.User", b =>
+                {
+                    b.Navigation("ForumPosts");
                 });
 #pragma warning restore 612, 618
         }
