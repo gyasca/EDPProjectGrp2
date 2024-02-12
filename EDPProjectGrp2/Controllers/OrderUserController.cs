@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace EDPProjectGrp2.Controllers
 {
@@ -23,7 +25,6 @@ namespace EDPProjectGrp2.Controllers
             _context = context;
         }
 
-        // GET: /Order
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
@@ -34,10 +35,15 @@ namespace EDPProjectGrp2.Controllers
                 .ThenInclude(oi => oi.Event)
                 .ToListAsync();
 
-            return Ok(orders);
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                // Other serialization options if needed
+            };
+
+            return Ok(JsonSerializer.Serialize(orders, options));
         }
 
-        // GET: /Order/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
@@ -53,25 +59,41 @@ namespace EDPProjectGrp2.Controllers
                 return NotFound();
             }
 
-            return Ok(order);
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                // Other serialization options if needed
+            };
+
+            return Ok(JsonSerializer.Serialize(order, options));
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] OrderModel orderModel)
+        public async Task<IActionResult> CreateOrderWithItems([FromBody] OrderWithItemsModel orderWithItemsModel)
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+
 
             var order = new Order
             {
                 UserId = userId,
-                OrderDate = DateTime.Now, 
-                OrderStatus = orderModel.OrderStatus,
-                SubTotalAmount = orderModel.SubTotalAmount,
-                GstAmount = orderModel.GstAmount,
-                TotalAmount = orderModel.TotalAmount,
-                NoOfItems = orderModel.NoOfItems,
-                OrderPaymentMethod = orderModel.OrderPaymentMethod,
-                OrderItems = orderModel.OrderItems
+                OrderDate = DateTime.Now,
+                OrderStatus = orderWithItemsModel.OrderStatus,
+                SubTotalAmount = orderWithItemsModel.SubTotalAmount,
+                GstAmount = orderWithItemsModel.GstAmount,
+                TotalAmount = orderWithItemsModel.TotalAmount,
+                NoOfItems = orderWithItemsModel.OrderItems.Count,
+                OrderPaymentMethod = orderWithItemsModel.OrderPaymentMethod,
+                OrderItems = orderWithItemsModel.OrderItems.Select(oi => new OrderItem
+                {
+                    EventId = oi.EventId,
+                    Quantity = oi.Quantity,
+                    TotalPrice = oi.TotalPrice,
+                    Discounted = oi.Discounted,
+                    DiscountedTotalPrice = oi.DiscountedTotalPrice
+                }).ToList()
             };
 
             _context.Orders.Add(order);
@@ -107,16 +129,60 @@ namespace EDPProjectGrp2.Controllers
 
             return Ok();
         }
+
+        [HttpPost("UpdateOrder/{id}")]
+        public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderModel model)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Event)
+                .FirstOrDefaultAsync(o => o.Id == id && o.UserId == userId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Update order status and payment method
+            order.OrderStatus = model.NewStatus;
+            order.OrderPaymentMethod = model.NewPaymentMethod;
+
+            // Update related events
+            foreach (var item in order.OrderItems)
+            {
+                var eventItem = item.Event;
+                if (eventItem != null)
+                {
+                    // Update event stock and status here
+                    // For example, decrement stock
+                    eventItem.EventTicketStock -= item.Quantity;
+
+                    // Update event status based on your business logic
+                    // e.g., if stock is 0, mark as Sold Out
+                    if (eventItem.EventTicketStock <= 0)
+                    {
+                        eventItem.EventStatus = false;
+                    }
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 
-
-    public class OrderModel
+    public class UpdateOrderModel
     {
-        [Required]
-        public DateTime OrderDate { get; set; }
+        public string NewStatus { get; set; }
+        public string NewPaymentMethod { get; set; }
+    }
 
+    public class OrderWithItemsModel
+    {
+        // Order details
         [Required]
-        [StringLength(255)]
         public string OrderStatus { get; set; }
 
         [Required]
@@ -124,6 +190,7 @@ namespace EDPProjectGrp2.Controllers
 
         [Required]
         public decimal GstAmount { get; set; }
+
         [Required]
         public decimal TotalAmount { get; set; }
 
@@ -131,10 +198,28 @@ namespace EDPProjectGrp2.Controllers
         public int NoOfItems { get; set; }
 
         [Required]
-        [StringLength(255)]
         public string OrderPaymentMethod { get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        // Order items
+        public List<OrderItemModel> OrderItems { get; set; }
     }
-    
+
+
+    public class OrderItemModel
+    {
+
+        [ForeignKey("Event")]
+        public int EventId { get; set; }
+
+        [Required]
+        public int Quantity { get; set; }
+
+        [Required]
+        public decimal TotalPrice { get; set; }
+        [Required]
+        public decimal Discounted { get; set; }
+        [Required]
+        public decimal DiscountedTotalPrice { get; set; }
+    }
+
 }

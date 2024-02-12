@@ -21,12 +21,13 @@ namespace EDPProjectGrp2.Models
         public string OrderStatus { get; set; }
 
         [Required]
-        public decimal SubTotalAmount { get; set; } 
+        public decimal SubTotalAmount { get; set; }
 
         [Required]
-        public decimal GstAmount { get; set; } 
+        public decimal GstAmount { get; set; }
+
         [Required]
-        public decimal TotalAmount { get; set; } 
+        public decimal TotalAmount { get; set; }
 
         [Required]
         public int NoOfItems { get; set; }
@@ -34,7 +35,6 @@ namespace EDPProjectGrp2.Models
         [Required]
         [StringLength(255)]
         public string OrderPaymentMethod { get; set; }
-
-        public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
