@@ -21,5 +21,11 @@ namespace EDPProjectGrp2.Models
 
         [Column(TypeName = "datetime")] // Specifies the database column type
         public DateTime CreatedAt { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        public int AcceptedBy { get; set; }
+
+        public string ResponseType { get; set; }
     }
 }
