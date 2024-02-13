@@ -46,6 +46,7 @@ namespace EDPProjectGrp2.Controllers
                 NewsletterSubscriptionStatus = user.NewsletterSubscriptionStatus,
                 TwoFactorAuthStatus = user.TwoFactorAuthStatus,
                 VerificationStatus = user.VerificationStatus,
+                GoogleAccountType = user.GoogleAccountType,
                 DateOfBirth = user.DateOfBirth,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now

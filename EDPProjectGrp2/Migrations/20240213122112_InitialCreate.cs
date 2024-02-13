@@ -97,6 +97,7 @@ namespace EDPProjectGrp2.Migrations
                     NewsletterSubscriptionStatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TwoFactorAuthStatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     VerificationStatus = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    GoogleAccountType = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false)
