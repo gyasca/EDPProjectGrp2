@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace EDPProjectGrp2.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class iniitialcreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -68,7 +68,10 @@ namespace EDPProjectGrp2.Migrations
                     Subject = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     Status = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    AcceptedBy = table.Column<int>(type: "int", nullable: false),
+                    ResponseType = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,7 +103,9 @@ namespace EDPProjectGrp2.Migrations
                     GoogleAccountType = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false)
+                    DateOfBirth = table.Column<DateTime>(type: "datetime", nullable: false),
+                    ResetPasswordToken = table.Column<string>(type: "longtext", nullable: true),
+                    ResetPasswordTokenExpiresAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
