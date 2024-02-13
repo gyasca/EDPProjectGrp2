@@ -56,6 +56,8 @@ namespace EDPProjectGrp2.Controllers
             ticket.Subject = updatedTicket.Subject;
             ticket.Description = updatedTicket.Description;
             ticket.Status = updatedTicket.Status;
+            ticket.AcceptedBy = updatedTicket.AcceptedBy;
+            ticket.ResponseType = updatedTicket.ResponseType;
 
             _context.SaveChanges();
 
