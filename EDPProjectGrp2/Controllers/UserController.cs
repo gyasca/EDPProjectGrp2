@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.Web;
 
 namespace EDPProjectGrp2.Controllers
 {
@@ -276,6 +277,63 @@ namespace EDPProjectGrp2.Controllers
             _context.Users.Remove(userToDelete);
             _context.SaveChanges();
             return Ok();
+        }
+
+
+
+
+        // Forgot Password - Request Password Reset
+        [HttpPost("forgotpassword/{email}")]
+        public IActionResult ForgotPassword(string email)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null)
+            {
+                // User not found
+                return NotFound();
+            }
+
+            var passwordResetService = new PasswordResetService();
+            var token = passwordResetService.GenerateToken();
+
+            // Set token and expiration date in user record
+            user.ResetPasswordToken = token;
+            user.ResetPasswordTokenExpiresAt = DateTime.UtcNow.AddHours(1); // Token expires in 1 hour
+            _context.SaveChanges();
+
+            // Construct password reset link with token
+            var encodedToken = HttpUtility.UrlEncode(token);
+            var resetLink = $"http://localhost:3000/resetpassword/{encodedToken}";
+
+            // Send password reset email
+            var emailService = new EmailService();
+            emailService.SendPasswordResetEmail(email, resetLink);
+
+            return Ok();
+        }
+
+
+        // Reset Password - Handle Password Reset Request
+        [HttpPost("resetpassword")]
+        public IActionResult ResetPassword(ResetPasswordRequest request)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.ResetPasswordToken == request.Token && u.ResetPasswordTokenExpiresAt > DateTime.UtcNow);
+            if (user == null)
+            {
+                return BadRequest("Invalid or expired token.");
+            }
+
+            // Hash the new password
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            user.Password = passwordHash;
+
+            // Clear the reset token
+            user.ResetPasswordToken = null;
+            user.ResetPasswordTokenExpiresAt = null;
+
+            _context.SaveChanges();
+
+            return Ok("Password reset successfully.");
         }
 
 
