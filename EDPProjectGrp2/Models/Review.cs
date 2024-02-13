@@ -22,9 +22,11 @@ namespace EDPProjectGrp2.Models
         [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
         public int Rating { get; set; }
 
-        [Display(Name = "Date Created")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime DateCreated { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime CreatedAt { get; set; }
+
+        [Required(ErrorMessage = "Please enter an eventID.")]
+        public int EventId { get; set; }
     }
 }
 
