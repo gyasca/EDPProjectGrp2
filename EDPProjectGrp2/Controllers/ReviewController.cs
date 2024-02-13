@@ -34,6 +34,19 @@ namespace EDPProjectGrp2.Controllers
             return review;
         }
 
+        [HttpGet("byEventId/{eventId}")]
+        public ActionResult<IEnumerable<Review>> GetReviewsByEventId(int eventId)
+        {
+            var reviews = _context.Reviews.Where(review => review.EventId == eventId).ToList();
+
+            if (reviews == null || reviews.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return reviews;
+        }
+
         [HttpPost]
         public IActionResult CreateReview([FromBody] Review review)
         {
