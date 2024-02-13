@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace EDPProjectGrp2.Models
 {
-    public class User
+    public class EditRequest
     {
         public int Id { get; set; }
         [Required, MaxLength(100)]
@@ -15,8 +15,6 @@ namespace EDPProjectGrp2.Models
         public string MobileNumber { get; set; } = string.Empty;
         [Required, EmailAddress, MaxLength(50)]
         public string Email { get; set; } = string.Empty;
-        [Required, MinLength(8)]
-        public string Password { get; set; } = string.Empty;
         public string? ProfilePhotoFile { get; set; }
         [Required, MinLength(1), MaxLength(50)]
         public string FirstName { get; set; } = string.Empty;
@@ -37,11 +35,11 @@ namespace EDPProjectGrp2.Models
         [Required]
         public bool VerificationStatus { get; set; } = false;
 
-		// Navigation property to represent the one-to-many relationship
-		[JsonIgnore]
-		public List<ForumPost>? ForumPosts { get; set; }
+        // Navigation property to represent the one-to-many relationship
+        [JsonIgnore]
+        public List<ForumPost>? ForumPosts { get; set; }
 
-		[Column(TypeName = "datetime")]
+        [Column(TypeName = "datetime")]
         public DateTime CreatedAt { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime UpdatedAt { get; set; }
