@@ -36,9 +36,11 @@ namespace EDPProjectGrp2.Models
         public bool TwoFactorAuthStatus { get; set; } = false;
         [Required]
         public bool VerificationStatus { get; set; } = false;
+        [Required]
+        public bool GoogleAccountType { get; set; } = false;
 
-		// Navigation property to represent the one-to-many relationship
-		[JsonIgnore]
+        // Navigation property to represent the one-to-many relationship
+        [JsonIgnore]
 		public List<ForumPost>? ForumPosts { get; set; }
 
 		[Column(TypeName = "datetime")]
