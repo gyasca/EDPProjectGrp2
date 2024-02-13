@@ -3,6 +3,7 @@ using System;
 using LearningAPI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EDPProjectGrp2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240213122112_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,23 +257,12 @@ namespace EDPProjectGrp2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AcceptedBy")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
-
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<string>("ResponseType")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -351,12 +343,6 @@ namespace EDPProjectGrp2.Migrations
 
                     b.Property<string>("ProfilePhotoFile")
                         .HasColumnType("longtext");
-
-                    b.Property<string>("ResetPasswordToken")
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime?>("ResetPasswordTokenExpiresAt")
-                        .HasColumnType("datetime");
 
                     b.Property<string>("RoleName")
                         .IsRequired()

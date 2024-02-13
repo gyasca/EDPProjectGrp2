@@ -36,9 +36,11 @@ namespace EDPProjectGrp2.Models
         public bool TwoFactorAuthStatus { get; set; } = false;
         [Required]
         public bool VerificationStatus { get; set; } = false;
+        [Required]
+        public bool GoogleAccountType { get; set; } = false;
 
-		// Navigation property to represent the one-to-many relationship
-		[JsonIgnore]
+        // Navigation property to represent the one-to-many relationship
+        [JsonIgnore]
 		public List<ForumPost>? ForumPosts { get; set; }
 
 		[Column(TypeName = "datetime")]
@@ -47,5 +49,13 @@ namespace EDPProjectGrp2.Models
         public DateTime UpdatedAt { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime DateOfBirth { get; set; }
+
+
+        [JsonIgnore] // This prevents the token from being serialized in responses
+        public string? ResetPasswordToken { get; set; }
+
+        [JsonIgnore] // This prevents the token expiration date from being serialized in responses
+        [Column(TypeName = "datetime")]
+        public DateTime? ResetPasswordTokenExpiresAt { get; set; }
     }
 }
