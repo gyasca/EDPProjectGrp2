@@ -254,12 +254,23 @@ namespace EDPProjectGrp2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("AcceptedBy")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("ResponseType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -306,6 +317,9 @@ namespace EDPProjectGrp2.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("GoogleAccountType")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -337,6 +351,12 @@ namespace EDPProjectGrp2.Migrations
 
                     b.Property<string>("ProfilePhotoFile")
                         .HasColumnType("longtext");
+
+                    b.Property<string>("ResetPasswordToken")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("ResetPasswordTokenExpiresAt")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("RoleName")
                         .IsRequired()

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EDPProjectGrp2.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240211143748_initialCreate")]
-    partial class initialCreate
+    [Migration("20240210024543_Update")]
+    partial class Update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,45 +80,6 @@ namespace EDPProjectGrp2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("EDPProjectGrp2.Models.ForumPost", b =>
-                {
-                    b.Property<int>("PostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("DateEdited")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("PostTopic")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Votes")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ForumPost");
                 });
 
             modelBuilder.Entity("EDPProjectGrp2.Models.Review", b =>
@@ -260,22 +221,6 @@ namespace EDPProjectGrp2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EDPProjectGrp2.Models.ForumPost", b =>
-                {
-                    b.HasOne("EDPProjectGrp2.Models.User", "User")
-                        .WithMany("ForumPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EDPProjectGrp2.Models.User", b =>
-                {
-                    b.Navigation("ForumPosts");
                 });
 #pragma warning restore 612, 618
         }
