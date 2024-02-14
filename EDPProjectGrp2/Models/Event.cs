@@ -27,8 +27,7 @@ namespace EDPProjectGrp2.Models
         [Range(1, 999)]
         public int EventTicketStock { get; set; } = 0;
 
-        [StringLength(500)]
-        public string EventPicture { get; set; } = string.Empty;
+        public string EventPicture { get; set; }
 
         [Required]
         [Range(0, 999)]
