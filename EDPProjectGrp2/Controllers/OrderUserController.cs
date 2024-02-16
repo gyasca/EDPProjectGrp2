@@ -32,7 +32,7 @@ namespace EDPProjectGrp2.Controllers
             var orders = await _context.Orders
                 .Where(o => o.UserId == userId)
                 .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Event)
+                    .ThenInclude(oi => oi.Event)
                 .ToListAsync();
 
             var options = new JsonSerializerOptions
@@ -51,7 +51,7 @@ namespace EDPProjectGrp2.Controllers
             var order = await _context.Orders
                 .Where(o => o.UserId == userId && o.Id == id)
                 .Include(o => o.OrderItems)
-                .ThenInclude(oi => oi.Event)
+                    .ThenInclude(oi => oi.Event)
                 .FirstOrDefaultAsync();
 
             if (order == null)
@@ -113,18 +113,7 @@ namespace EDPProjectGrp2.Controllers
             }
 
             // Update order status
-            order.OrderStatus = "Received"; 
-            await _context.SaveChangesAsync();
-
-            // Log the status change
-            var orderLog = new OrderLog
-            {
-                OrderId = order.Id,
-                UserId = order.UserId,
-                Timestamp = DateTime.UtcNow, 
-                ChangedStatus = order.OrderStatus
-            };
-            _context.Add(orderLog);
+            order.OrderStatus = "Order Received"; 
             await _context.SaveChangesAsync();
 
             return Ok();

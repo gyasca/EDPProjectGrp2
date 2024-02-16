@@ -12,7 +12,7 @@ namespace EDPProjectGrp2.Models
         public string EventName { get; set; } = string.Empty;
 
         [Required]
-        [StringLength(1000)]
+        [StringLength(100000)]
         public string EventDescription { get; set; } = string.Empty;
 
         [Required]
@@ -33,6 +33,10 @@ namespace EDPProjectGrp2.Models
         [Range(0, 999)]
         public decimal EventPrice { get; set; } = 0;
 
+        [Required]
+        [Range(0, 999)]
+        public decimal EventDiscountPrice { get; set; } = 0;
+
         [Range(0, 999)]
         public decimal EventUplayMemberPrice { get; set; } = 0;
 
@@ -41,6 +45,9 @@ namespace EDPProjectGrp2.Models
 
         [Required]
         public DateTime EventDate { get; set; } = DateTime.MinValue;
+
+        [Required]
+        public DateTime EventEndDate { get; set; } = DateTime.MinValue;
 
         [Required]
         [Range(0, 999)]

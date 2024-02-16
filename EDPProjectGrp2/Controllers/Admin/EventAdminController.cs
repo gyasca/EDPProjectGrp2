@@ -41,10 +41,12 @@ namespace EDPProjectGrp2.Controllers.Admin
                 e.EventTicketStock,
                 e.EventPicture,
                 e.EventPrice,
+                e.EventDiscountPrice,
                 e.EventUplayMemberPrice,
                 e.EventNtucClubPrice,
                 e.EventDate,
                 e.EventDuration,
+                e.EventEndDate,
                 e.EventSale,
                 e.EventStatus
             });
@@ -70,9 +72,11 @@ namespace EDPProjectGrp2.Controllers.Admin
                 myEvent.EventTicketStock,
                 myEvent.EventPicture,
                 myEvent.EventPrice,
+                myEvent.EventDiscountPrice,
                 myEvent.EventUplayMemberPrice,
                 myEvent.EventNtucClubPrice,
                 myEvent.EventDate,
+                myEvent.EventEndDate,
                 myEvent.EventDuration,
                 myEvent.EventSale,
                 myEvent.EventStatus
@@ -102,9 +106,11 @@ namespace EDPProjectGrp2.Controllers.Admin
                 EventTicketStock = newEvent.EventTicketStock,
                 EventPicture = newEvent.EventPicture,
                 EventPrice = newEvent.EventPrice,
+                EventDiscountPrice = newEvent.EventDiscountPrice,
                 EventUplayMemberPrice = newEvent.EventUplayMemberPrice,
                 EventNtucClubPrice = newEvent.EventNtucClubPrice,
                 EventDate = newEvent.EventDate,
+                EventEndDate = newEvent.EventEndDate,
                 EventDuration = newEvent.EventDuration,
                 EventSale = newEvent.EventSale,
                 EventStatus = newEvent.EventStatus,
@@ -142,6 +148,7 @@ namespace EDPProjectGrp2.Controllers.Admin
             myEvent.EventUplayMemberPrice = updatedEvent.EventUplayMemberPrice;
             myEvent.EventNtucClubPrice = updatedEvent.EventNtucClubPrice;
             myEvent.EventDate = updatedEvent.EventDate;
+            myEvent.EventEndDate = updatedEvent.EventEndDate;
             myEvent.EventDuration = updatedEvent.EventDuration;
             myEvent.EventSale = updatedEvent.EventSale;
             myEvent.EventStatus = updatedEvent.EventStatus;

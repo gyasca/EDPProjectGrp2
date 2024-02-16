@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Stripe.Climate;
 
 namespace EDPProjectGrp2.Controllers.Admin
 {
@@ -25,13 +28,18 @@ namespace EDPProjectGrp2.Controllers.Admin
         public async Task<IActionResult> GetAllOrders()
         {
             var orders = await _context.Orders
-                .Include(o => o.User) // Assuming you have a User entity related to the Order
+                .Include(o => o.User) 
                 .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Event) // Include Event details if necessary
+                    .ThenInclude(oi => oi.Event) 
                 .ToListAsync();
 
-            // You might want to select specific fields to return, similar to the EventAdminController
-            return Ok(orders);
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                // Other serialization options if needed
+            };
+
+            return Ok(JsonSerializer.Serialize(orders, options));
         }
 
         // GET: Single Order by ID
@@ -39,9 +47,9 @@ namespace EDPProjectGrp2.Controllers.Admin
         public async Task<IActionResult> GetOrder(int id)
         {
             var order = await _context.Orders
-                .Include(o => o.User) // Include User details
+                .Include(o => o.User) 
                 .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Event) // Include Event details if necessary
+                    .ThenInclude(oi => oi.Event) 
                 .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
@@ -49,13 +57,18 @@ namespace EDPProjectGrp2.Controllers.Admin
                 return NotFound("Order not found.");
             }
 
-            // You might want to format the response similarly to the EventAdminController
-            return Ok(order);
+            var options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                // Other serialization options if needed
+            };
+
+            return Ok(JsonSerializer.Serialize(order, options));
         }
 
         // PUT: Update Order Status
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] OrderStatusUpdateModel model)
+        public async Task<IActionResult> UpdateOrderStatus(int id, OrderStatusUpdateModel updateStatus)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
@@ -64,7 +77,7 @@ namespace EDPProjectGrp2.Controllers.Admin
             }
 
             // Assuming you have an enum or a set of constants for order statuses
-            order.OrderStatus = model.NewStatus;
+            order.OrderStatus = updateStatus.NewStatus;
             await _context.SaveChangesAsync();
 
             return Ok("Order status updated successfully.");

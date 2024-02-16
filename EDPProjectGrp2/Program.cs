@@ -3,9 +3,13 @@ using LearningAPI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+StripeConfiguration.ApiKey = "sk_test_51OjvsXKiO8MjoyxdDZyv4ZD892042DZYWamVaqxmfSYN0NZ3lFw0KKuuCYVHadYyLqZoWFgTEXed9CEpzzZH5lGe00nc8ZCQPY";
 
 // Add services to the container.
 builder.Services.AddDbContext<MyDbContext>();

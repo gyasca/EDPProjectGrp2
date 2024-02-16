@@ -31,7 +31,9 @@ namespace EDPProjectGrp2.Controllers
                                 c.EventId,
                                 c.Event.EventName, 
                                 c.Quantity,
-                                c.Event.EventPrice 
+                                c.Event.EventPrice,
+                                c.Event.EventStatus,
+                                c.Event,
                             }).ToList();
 
             return Ok(cartItems);

@@ -39,9 +39,11 @@ namespace EDPProjectGrp2.Controllers
                 e.EventTicketStock,
                 e.EventPicture,
                 e.EventPrice,
+                e.EventDiscountPrice,
                 e.EventUplayMemberPrice,
                 e.EventNtucClubPrice,
                 e.EventDate,
+                e.EventEndDate,
                 e.EventDuration,
                 e.EventSale,
                 e.EventStatus
@@ -69,9 +71,11 @@ namespace EDPProjectGrp2.Controllers
                 myEvent.EventTicketStock,
                 myEvent.EventPicture,
                 myEvent.EventPrice,
+                myEvent.EventDiscountPrice,
                 myEvent.EventUplayMemberPrice,
                 myEvent.EventNtucClubPrice,
                 myEvent.EventDate,
+                myEvent.EventEndDate,
                 myEvent.EventDuration,
                 myEvent.EventSale,
                 myEvent.EventStatus

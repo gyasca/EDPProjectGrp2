@@ -22,10 +22,11 @@ namespace LearningAPI
         public DbSet<User> Users { get; set; }
         public DbSet<ForumPost> ForumPost { get; set; }
         public DbSet<Event> Events { get; set; }
-
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }  
+        public DbSet<Refund> Refunds { get; set; }  
     }
 }
